@@ -110,12 +110,10 @@
                 const response = responses[i][2];
                 const scoreValue = parseInt(responses[i][3]); // Parse score from CSV
                 console.log(question);
-                if (question !== undefined) {
-                    const distance = levenshteinDistance(userQuestion, question);
-                }
-                else {
+                if (question == undefined) {
                     return { question: mostSimilarQuestion, response: mostSimilarResponse };
                 }
+                const distance = levenshteinDistance(userQuestion, question);
 
 
                 if (distance < minDistance) {
