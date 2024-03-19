@@ -102,7 +102,7 @@
             const responses = await fetch('responses.csv')
                 .then(response => response.text())
                 .then(text => text.split('\n').map(line => line.split(',')));
-
+            console.log(responses.length);
             for (let i = 1; i < responses.length; i++) {
                 const question = responses[i][1];
                 const response = responses[i][2];
