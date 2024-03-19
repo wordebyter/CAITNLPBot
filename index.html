@@ -135,8 +135,10 @@
             if (score < 0) {
                 score = 0;
             }
-            document.getElementById('score').innerText = `Score: ${score}`;
+            const roundedScore = Math.round(score * 100) / 100; // Round to the nearest 0.01
+            document.getElementById('score').innerText = `Score: ${roundedScore.toFixed(2)}`;
         }
+
 
         async function submitQuestion() {
             const question = document.getElementById('question').value.trim();
