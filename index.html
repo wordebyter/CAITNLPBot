@@ -42,7 +42,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="score" id="score">Score: 1</div>
+        <div class="score" id="score">Score: 1.0</div>
         <div class="question">
             <p>Jada makes sparkling juice by mixing 2 cups of sparkling water with every 3 cups of apple juice.</p>
             <p>How much sparkling water does Jada need if she uses 15 cups of apple juice?</p>
@@ -60,7 +60,7 @@
         </div>
     </div>
     <script>
-        let score = 1; // Starting score
+        let score = 1.0; // Starting score
 
         function levenshteinDistance(a, b) {
             if (a.length === 0) return b.length;
@@ -108,7 +108,7 @@
             for (let i = 1; i < responses.length; i++) {
                 const question = responses[i][1];
                 const response = responses[i][2];
-                const scoreValue = parseInt(responses[i][3]); // Parse score from CSV
+                const scoreValue = parseFloat(responses[i][3]); // Parse score from CSV
                 console.log(scoreValue);
                 if (question == undefined) {
                     score -= scoreSubtract;
