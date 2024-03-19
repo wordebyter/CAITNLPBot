@@ -109,8 +109,9 @@
                 const question = responses[i][1];
                 const response = responses[i][2];
                 const scoreValue = parseInt(responses[i][3]); // Parse score from CSV
-                console.log(question);
+                console.log(scoreValue);
                 if (question == undefined) {
+                    score -= scoreSubtract;
                     return { question: mostSimilarQuestion, response: mostSimilarResponse };
                 }
                 const distance = levenshteinDistance(userQuestion, question);
