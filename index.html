@@ -114,7 +114,7 @@
                     const distance = levenshteinDistance(userQuestion, question);
                 }
                 else {
-                    continue;
+                    return { question: mostSimilarQuestion, response: mostSimilarResponse };
                 }
 
 
