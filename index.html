@@ -100,8 +100,8 @@
             let scoreSubtract = 0; // Score to subtract
 
             const responses = await fetch('responses.csv')
-                .then(response => response.text());
-                // .then(text => text.split('\n').map(line => line.split(',')));
+                .then(response => response.text())
+                .then(text => text.split('\n').map(line => line.split(',')));
 
             for (let i = 1; i < responses.length; i++) {
                 const question = responses[i][0];
