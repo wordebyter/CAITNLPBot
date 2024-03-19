@@ -104,9 +104,9 @@
                 .then(text => text.split('\n').map(line => line.split(',')));
 
             for (let i = 1; i < responses.length; i++) {
-                const question = responses[i][0];
-                const response = responses[i][1];
-                const scoreValue = parseInt(responses[i][2]); // Parse score from CSV
+                const question = responses[i][1];
+                const response = responses[i][2];
+                const scoreValue = parseInt(responses[i][3]); // Parse score from CSV
                 console.log(question);
 
                 const distance = levenshteinDistance(userQuestion, question);
