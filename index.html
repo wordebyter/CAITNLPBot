@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sparkling Juice Mixing Question</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answer-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .question-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="question">
+            <p>Jada makes sparkling juice by mixing 2 cups of sparkling water with every 3 cups of apple juice.</p>
+            <p>How much sparkling water does Jada need if she uses 15 cups of apple juice?</p>
+            <p>Do not include units (cups) in your answer.</p>
+        </div>
+        <div class="answer-box">
+            <input type="number" id="answer" placeholder="Enter your answer">
+            <button onclick="checkAnswer()">Submit</button>
+            <p id="result"></p>
+        </div>
+        <div class="question-box">
+            <textarea id="question" placeholder="Ask your question here"></textarea>
+            <button onclick="submitQuestion()">Ask</button>
+            <div id="response"></div>
+        </div>
+    </div>
+    <script>
+        function levenshteinDistance(a, b) {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
+
+            const matrix = [];
+
+            for (let i = 0; i <= b.length; i++) {
+                matrix[i] = [i];
+            }
+
+            for (let j = 0; j <= a.length; j++) {
+                matrix[0][j] = j;
+            }
+
+            for (let i = 1; i <= b.length; i++) {
+                for (let j = 1; j <= a.length; j++) {
+                    if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+
+            return matrix[b.length][a.length];
+        }
+
+        async function getMostSimilarQuestion(userQuestion) {
+            let minDistance = Number.MAX_SAFE_INTEGER;
+            let mostSimilarQuestion = '';
+            let mostSimilarResponse = '';
+
+            const responses = await fetch('responses.csv')
+                .then(response => response.text())
+                .then(text => text.split('\n').map(line => line.split(',')));
+
+            for (let i = 1; i < responses.length; i++) {
+                const question = responses[i][0];
+                const response = responses[i][1];
+                const distance = levenshteinDistance(userQuestion, question);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    mostSimilarQuestion = question;
+                    mostSimilarResponse = response;
+                }
+            }
+
+            return { question: mostSimilarQuestion, response: mostSimilarResponse };
+        }
+
+
+
+
+        async function submitQuestion() {
+            const question = document.getElementById('question').value.trim();
+            if (question !== '') {
+                const { question: mostSimilarQuestion, response: mostSimilarResponse } = await getMostSimilarQuestion(question);
+                document.getElementById('response').innerHTML = `<p>Similar question: ${mostSimilarQuestion}</p><p>Response: ${mostSimilarResponse}</p>`;
+                document.getElementById('question').value = '';
+            }
+        }
+
+        function checkAnswer() {
+            const answer = document.getElementById('answer').value.trim();
+            if (answer === '10') {
+                document.getElementById('result').innerText = 'Correct!';
+            } else {
+                document.getElementById('result').innerText = 'Incorrect. Please try again.';
+            }
+        }
+    </script>
+</body>
+</html>
