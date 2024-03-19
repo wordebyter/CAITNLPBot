@@ -103,13 +103,13 @@
                 .then(response => response.text())
                 .then(text => text.split('\n').map(line => line.split(',')));
 
-            console.log(responses.length);
+            // console.log(responses.length);
 
             for (let i = 1; i < responses.length; i++) {
                 const question = responses[i][1];
                 const response = responses[i][2];
                 const scoreValue = parseFloat(responses[i][3]); // Parse score from CSV
-                console.log(scoreValue);
+                // console.log(scoreValue);
                 if (question == undefined) {
                     score -= scoreSubtract;
                     return { question: mostSimilarQuestion, response: mostSimilarResponse };
