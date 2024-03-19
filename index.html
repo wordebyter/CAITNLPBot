@@ -132,6 +132,9 @@
         }
 
         function updateScore() {
+            if (score < 0) {
+                score = 0;
+            }
             document.getElementById('score').innerText = `Score: ${score}`;
         }
 
@@ -149,10 +152,12 @@
             const answer = document.getElementById('answer').value.trim();
             if (answer === '10') {
                 document.getElementById('result').innerText = 'Correct!';
-                score++; // Increment score if answer is correct
-                updateScore();
+                // score++; // Increment score if answer is correct
+                // updateScore();
             } else {
                 document.getElementById('result').innerText = 'Incorrect. Please try again.';
+                score = score -.1;
+                updateScore();
             }
         }
 
